@@ -1,0 +1,6 @@
+*.swp
+*.o
+*.x
+.vim
+*.txt
+results/
