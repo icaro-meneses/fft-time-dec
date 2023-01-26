@@ -115,7 +115,7 @@ print_matrix_cpx(float complex** matrix, const int size_N)
 	{
 		for (int col = 0; col < size_N; col++)
 		{
-			printf("\t(%6.3f + %6.3fj) ",
+			printf("\t(%5.4f + %5.4fj) ",
 				   crealf(matrix[row][col]),
 				   cimagf(matrix[row][col]));
 		}
@@ -131,7 +131,7 @@ print_vector_cpx(float complex* vector, const int size_N)
 		   size_N);
 	for (int item = 0; item < size_N; item++)
 	{
-		printf("\t(%6.3f + %6.3fj) ",
+		printf("\t(%5.4f + %5.4fj) ",
 			   crealf(vector[item]),
 			   cimagf(vector[item]));
 	}
@@ -145,7 +145,7 @@ print_vector(float* vector, const int size_N)
 		   size_N);
 	for (int item = 0; item < size_N; item++)
 	{
-		printf("\t%6.3f ", vector[item]);
+		printf("\t%5.4f ", vector[item]);
 	}
 	printf("\n\n");
 }

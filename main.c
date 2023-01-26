@@ -18,24 +18,26 @@
  */
 
 #include "matrix_operations.h"
+#include "fft_tdec.h"
+#include <math.h>
 #include <stdio.h>
 #include <complex.h>
 
-#define SIGNAL_SIZE 8
-
-#define PI			3.141592653589793f
-#define TWO_PI		(2.0 * PI)
+#define SIGNAL_SIZE 8192
+#define FFT_SIZE	8192
 
 int
 main(void)
 {
 	float complex* signal_example;
+	float complex* fft_output;
 
 	float freq_A, freq_B;
-	float sample_frequency = 16.0e3f;
+	float sample_frequency = 8.0e3f;
 	float sample_period	   = 1.0f / sample_frequency;
 
 	signal_example		   = vector_create_cpx(SIGNAL_SIZE);
+	fft_output			   = vector_create_cpx(FFT_SIZE);
 
 	freq_A				   = 1000.0f;
 	freq_B				   = 2000.0f;
@@ -47,12 +49,22 @@ main(void)
 						 ((3.0f * PI) / 4.0f));
 	}
 
+	fill_vector(fft_output, signal_example, FFT_SIZE, SIGNAL_SIZE);
+
 #ifdef DEBUG_MODE
 	printf("Signal Example (Complex Form):\n");
 	print_vector_cpx(signal_example, SIGNAL_SIZE);
 #endif
 
+	fft_dec_time(fft_output, FFT_SIZE, false);
+
+#ifdef DEBUG_MODE
+	printf("FFT Output (Complex Form):\n");
+	print_vector_cpx(fft_output, FFT_SIZE);
+#endif
+
 	vector_delete_cpx(signal_example);
+	vector_delete_cpx(fft_output);
 
 	return 0;
 }
