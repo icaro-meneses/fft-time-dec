@@ -49,7 +49,7 @@ fill_vector(float complex* dest_vector,
 }
 
 void
-get_dft_freqs(float* freq_array,
+get_fft_freqs(float* freq_array,
 			  const int window_length,
 			  const float sample_spacing)
 {
@@ -117,3 +117,17 @@ fft_dec_time(float complex* signal, int N, bool inverse_mode)
 	vector_delete_cpx(x_odd);
 }
 
+float*
+abs_fft_calc(float complex* fft, const int fft_size)
+{
+	float* fft_abs_output;
+
+	fft_abs_output = vector_create(fft_size);
+
+	for (int item = 0; item < fft_size; item++)
+	{
+		fft_abs_output[item] = cabsf(fft[item]);
+	}
+
+	return fft_abs_output;
+}

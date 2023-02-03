@@ -65,4 +65,14 @@ get_fft_freqs(float* freq_array,
 void
 fft_dec_time(float complex* signal, int N, bool inverse_mode);
 
+/*
+ * ===  FUNCTION  ==================================================
+ *         Name:  abs_fft_calc
+ *  Description:  Calculates the magnitude(absolute value) of
+ *				  a previous calculated FFT.
+ * =================================================================
+ */
+float*
+abs_fft_calc(float complex* fft, const int fft_size);
+
 #endif
