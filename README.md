@@ -1,7 +1,8 @@
-# Atividade: Implementação da DFT usando a matriz
+# Atividade: Implementação da FFT por decimação no tempo
 
 É uma atividade que consiste na implementação da Transformada Rápida de 
-Fourier(FFT) por decimação no Tempo (algoritmo de Cooley-Tukey(1965)).
+Fourier(FFT) por decimação no Tempo (algoritmo de Cooley-Tukey(1965)),
+implementada maneira recursiva.
 
 ## Dependências
 
