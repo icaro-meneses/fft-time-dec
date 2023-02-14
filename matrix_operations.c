@@ -19,8 +19,31 @@
 
 #include "matrix_operations.h"
 #include <complex.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+int
+get_size(int num)
+{
+	return (int)powf(2.0f, ceilf(logf((float)num) / logf(2.0f)));
+}
+
+int
+gcd(int num_a, int num_b)
+{
+	int aux;
+
+	while (num_b != 0)
+	{
+		aux	  = num_a % num_b;
+
+		num_a = num_b;
+		num_b = aux;
+	}
+
+	return num_a;
+}
 
 float*
 vector_create(const int size_N)
@@ -115,7 +138,7 @@ print_matrix_cpx(float complex** matrix, const int size_N)
 	{
 		for (int col = 0; col < size_N; col++)
 		{
-			printf("\t(%5.4f + %5.4fj) ",
+			printf("\t(%6.2f + %6.2fj) ",
 				   crealf(matrix[row][col]),
 				   cimagf(matrix[row][col]));
 		}
@@ -131,7 +154,7 @@ print_vector_cpx(float complex* vector, const int size_N)
 		   size_N);
 	for (int item = 0; item < size_N; item++)
 	{
-		printf("\t(%5.4f + %5.4fj) ",
+		printf("\t(%6.2f + %6.2fj) ",
 			   crealf(vector[item]),
 			   cimagf(vector[item]));
 	}
@@ -145,7 +168,7 @@ print_vector(float* vector, const int size_N)
 		   size_N);
 	for (int item = 0; item < size_N; item++)
 	{
-		printf("\t%5.4f ", vector[item]);
+		printf("\t%6.2f ", vector[item]);
 	}
 	printf("\n\n");
 }
@@ -189,7 +212,7 @@ matrix_vector_mult_cpx(float complex** matrix,
 		printf("mult_out[%d] = ", row);
 		for (int col = 0; col < size_N; col++)
 		{
-			printf("[%6.3f + (%6.3f)j] * [%6.3f + (%6.3f)j]",
+			printf("[%6.2f + (%6.2f)j] * [%6.2f + (%6.2f)j]",
 				   crealf(matrix[row][col]),
 				   cimagf(matrix[row][col]),
 				   crealf(vector[col]),
@@ -201,7 +224,7 @@ matrix_vector_mult_cpx(float complex** matrix,
 				printf(" + ");
 			}
 		}
-		printf(" = %6.3f + (%6.3f)j\n",
+		printf(" = %6.2f + (%6.2f)j\n",
 			   crealf(aux_value),
 			   cimagf(aux_value));
 #endif

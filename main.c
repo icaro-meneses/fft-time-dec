@@ -17,15 +17,14 @@
  * ======================================================================
  */
 
-#include <math.h>
 #include <stdio.h>
 #include <complex.h>
+#include <math.h>
 #include "matrix_operations.h"
 #include "fft_tdec.h"
 #include "out_file.h"
 
-#define SIGNAL_SIZE 8192
-#define FFT_SIZE	8192
+#define FFT_SIZE 8192
 
 int
 main(void)
@@ -36,18 +35,22 @@ main(void)
 	float* fft_abs;
 
 	float freq_A, freq_B;
+	float signal_freq;
+	float total_time	   = 1.0f;
 	float sample_frequency = 8.0e3f;
 	float sample_period	   = 1.0f / sample_frequency;
+	int signal_size = (int)ceilf(sample_frequency * total_time);
 
-	signal_example		   = vector_create_cpx(SIGNAL_SIZE);
-	fft_output			   = vector_create_cpx(FFT_SIZE);
-	fft_freqs			   = vector_create(FFT_SIZE);
+	signal_example	= vector_create_cpx(signal_size);
+	fft_output		= vector_create_cpx(FFT_SIZE);
+	fft_freqs		= vector_create(FFT_SIZE);
 
 	get_fft_freqs(fft_freqs, FFT_SIZE, sample_period);
 
-	freq_A = 1000.0f;
-	freq_B = 2000.0f;
-	for (int n = 0; n < SIGNAL_SIZE; n++)
+	freq_A		= 1000.0f;
+	freq_B		= 2000.0f;
+	signal_freq = (float)gcd((int)freq_A, freq_B);
+	for (int n = 0; n < signal_size; n++)
 	{
 		signal_example[n] =
 			csinf(TWO_PI * freq_A * n * sample_period) +
@@ -55,11 +58,11 @@ main(void)
 						 ((3.0f * PI) / 4.0f));
 	}
 
-	fill_vector(fft_output, signal_example, FFT_SIZE, SIGNAL_SIZE);
+	fill_vector(fft_output, signal_example, FFT_SIZE, signal_size);
 
 #ifdef DEBUG_MODE
 	printf("Signal Example (Complex Form):\n");
-	print_vector_cpx(signal_example, SIGNAL_SIZE);
+	print_vector_cpx(signal_example, signal_size);
 #endif
 
 	fft_dec_time(fft_output, FFT_SIZE, false);
@@ -77,7 +80,10 @@ main(void)
 #endif
 
 	printf("Outputting the data files...\n");
-	output_data_cpx("input_signal.txt", signal_example, SIGNAL_SIZE);
+	output_data_cpx("input_signal.txt", signal_example, signal_size);
+	output_data("input_signal_params.txt",
+				(float[]){signal_freq, sample_frequency},
+				2);
 	output_data("fft_freqs.txt", fft_freqs, FFT_SIZE);
 	output_data_cpx("fft_out.txt", fft_output, FFT_SIZE);
 	output_data("fft_abs.txt", fft_abs, FFT_SIZE);
